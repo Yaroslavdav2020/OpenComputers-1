@@ -7,7 +7,7 @@ local serialization = require("serialization")
 local shell = require("shell")
 local args, options = shell.parse( ... )
  
-------------------------------------- Проверка компа на соответствие сис. требованиям -------------------------------------
+------------------------------------- РџСЂРѕРІРµСЂРєР° РєРѕРјРїР° РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ СЃРёСЃ. С‚СЂРµР±РѕРІР°РЅРёСЏРј -------------------------------------
  
 shell.execute("cd ..")
 shell.setWorkingDirectory("")
@@ -15,21 +15,21 @@ shell.setWorkingDirectory("")
 print(" ")
 print("Analyzing computer for matching system requirements...")
  
--- Создаем массив
+-- РЎРѕР·РґР°РµРј РјР°СЃСЃРёРІ
 local govno = {}
--- Чекаем архитектуру
+-- Р§РµРєР°РµРј Р°СЂС…РёС‚РµРєС‚СѓСЂСѓ
 -- local architecture = computer.getArchitecture()
 -- if architecture ~= "Lua 5.2" then table.insert(govno, "You are using " .. architecture ..  " architecture. Take processor into your hands and switch it to \"Lua 5.2\", after that you will be able to install MineOS.") end
--- Проверяем, не планшет ли это
+-- РџСЂРѕРІРµСЂСЏРµРј, РЅРµ РїР»Р°РЅС€РµС‚ Р»Рё СЌС‚Рѕ
 if component.isAvailable("tablet") then table.insert(govno, "Tablet PC detected: you can't install MineOS on tablet because of primitive GPU and Screen.") end
--- Проверяем GPU
+-- РџСЂРѕРІРµСЂСЏРµРј GPU
 if component.gpu.maxResolution() < 150 then table.insert(govno, "Bad GPU or Screen: MineOS requires Tier 3 GPU and Tier 3 Screen to give you full experience.") end
--- Проверяем оперативку
+-- РџСЂРѕРІРµСЂСЏРµРј РѕРїРµСЂР°С‚РёРІРєСѓ
 if math.floor(computer.totalMemory() / 1024 ) < 1024 then table.insert(govno, "Not enough RAM: MineOS requires at least 1024 KB RAM.") end
--- Проверяем, не флоппи-диск ли это
+-- РџСЂРѕРІРµСЂСЏРµРј, РЅРµ С„Р»РѕРїРїРё-РґРёСЃРє Р»Рё СЌС‚Рѕ
 if fs.get("/bin/edit.lua") == nil or fs.get("/bin/edit.lua").isReadOnly() then table.insert(govno, "You can't install MineOS on floppy disk. Run \"install\" in command line and install OpenOS from floppy to HDD first. After that you're be able to install MineOS.") end
  
---Если нашло какое-то несоответствие сис. требованиям, то написать, что именно не так
+--Р•СЃР»Рё РЅР°С€Р»Рѕ РєР°РєРѕРµ-С‚Рѕ РЅРµСЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ СЃРёСЃ. С‚СЂРµР±РѕРІР°РЅРёСЏРј, С‚Рѕ РЅР°РїРёСЃР°С‚СЊ, С‡С‚Рѕ РёРјРµРЅРЅРѕ РЅРµ С‚Р°Рє
 if #govno > 0 and not options.skipcheck then
   print(" ")
   for i = 1, #govno do print(govno[i]) end
@@ -40,7 +40,7 @@ else
   print(" ")
 end
  
-------------------------------------- Создание базового контента -------------------------------------
+------------------------------------- РЎРѕР·РґР°РЅРёРµ Р±Р°Р·РѕРІРѕРіРѕ РєРѕРЅС‚РµРЅС‚Р° -------------------------------------
  
 local lang
 local applications
@@ -70,7 +70,7 @@ local function internetRequest(url)
   end
 end
  
---БЕЗОПАСНАЯ ЗАГРУЗОЧКА
+--Р‘Р•Р—РћРџРђРЎРќРђРЇ Р—РђР“Р РЈР—РћР§РљРђ
 local function getFromGitHubSafely(url, path)
   local success, reason = internetRequest(url)
   if success then
@@ -85,7 +85,7 @@ local function getFromGitHubSafely(url, path)
   end
 end
  
--- Прошивочка биоса на более пиздатый, нашенский
+-- РР·РјРµРЅСЏРµРј РїСЂРѕС€РёРІРєСѓ Р±РёРѕСЃР°
 local function flashEFI()
   local oldBootAddress = component.eeprom.getData()
   local data; local file = io.open("/MineOS/System/OS/EFI.lua", "r"); data = file:read("*a"); file:close()
@@ -95,7 +95,7 @@ local function flashEFI()
   pcall(component.proxy(oldBootAddress).setLabel, "MineOS")
 end
  
-------------------------------------- Стадия стартовой загрузки всего необходимого -------------------------------------
+------------------------------------- РЎС‚Р°РґРёСЏ СЃС‚Р°СЂС‚РѕРІРѕР№ Р·Р°РіСЂСѓР·РєРё РІСЃРµРіРѕ РЅРµРѕР±С…РѕРґРёРјРѕРіРѕ -------------------------------------
  
 print("Downloading file list")
 applications = serialization.unserialize(getFromGitHubSafely(GitHubUserUrl .. "Yaroslavdav2020/OpenComputers/master/Applications.txt", "/MineOS/System/OS/Applications.txt"))
@@ -110,7 +110,7 @@ end
  
 print(" ")
  
-------------------------------------- Стадия инициализации загруженных библиотек -------------------------------------
+------------------------------------- РЎС‚Р°РґРёСЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё Р·Р°РіСЂСѓР¶РµРЅРЅС‹С… Р±РёР±Р»РёРѕС‚РµРє -------------------------------------
  
 package.loaded.ecs = nil
 package.loaded.ECSAPI = nil
@@ -129,7 +129,7 @@ local windowWidth, windowHeight = 80, 25
 local xWindow, yWindow = math.floor(xSize / 2 - windowWidth / 2), math.ceil(ySize / 2 - windowHeight / 2)
 local xWindowEnd, yWindowEnd = xWindow + windowWidth - 1, yWindow + windowHeight - 1
  
-------------------------------------- Базовые функции для работы с будущим окном -------------------------------------
+------------------------------------- Р‘Р°Р·РѕРІС‹Рµ С„СѓРЅРєС†РёРё РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ Р±СѓРґСѓС‰РёРј РѕРєРЅРѕРј -------------------------------------
  
 local function clear()
   ecs.blankWindow(xWindow, yWindow, windowWidth, windowHeight)
@@ -161,7 +161,7 @@ local function waitForClickOnButton(buttonName)
   end
 end
  
-------------------------------------- Стадия выбора языка и настройки системы -------------------------------------
+------------------------------------- РЎС‚Р°РґРёСЏ РІС‹Р±РѕСЂР° СЏР·С‹РєР° Рё РЅР°СЃС‚СЂРѕР№РєРё СЃРёСЃС‚РµРјС‹ -------------------------------------
  
 ecs.prepareToExit()
  
@@ -192,7 +192,7 @@ do
   )
   installOptions, downloadWallpapers, showHelpTips = data[2], data[3], data[4]
  
-  -- Устанавливаем базовую конфигурацию системы
+  -- РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р±Р°Р·РѕРІСѓСЋ РєРѕРЅС„РёРіСѓСЂР°С†РёСЋ СЃРёСЃС‚РµРјС‹
   _G.OSSettings = {
     screensaver = "Matrix",
     screensaverDelay = 20,
@@ -207,7 +207,7 @@ do
  
   ecs.saveOSSettings()
  
-  -- Загружаем локализацию инсталлера
+  -- Р—Р°РіСЂСѓР¶Р°РµРј Р»РѕРєР°Р»РёР·Р°С†РёСЋ РёРЅСЃС‚Р°Р»Р»РµСЂР°
   ecs.info("auto", "auto", " ", " Installing language packages...")
   local pathToLang = "/MineOS/System/OS/Installer/Language.lang"
   getFromGitHubSafely(GitHubUserUrl .. "Yaroslavdav2020/OpenComputers/master/Installer/" .. _G.OSSettings.language .. ".lang", pathToLang)
@@ -217,35 +217,35 @@ do
 end
  
  
-------------------------------------- Проверка, желаем ли мы вообще ставить ось -------------------------------------
+------------------------------------- РџСЂРѕРІРµСЂРєР°, Р¶РµР»Р°РµРј Р»Рё РјС‹ РІРѕРѕР±С‰Рµ СЃС‚Р°РІРёС‚СЊ РѕСЃСЊ -------------------------------------
  
 do
   clear()
  
   image.draw(math.ceil(xSize / 2 - 15), yWindow + 2, imageOS)
  
-  --Текстик по центру
+  --Г’ГҐГЄГ±ГІГЁГЄ ГЇГ® Г¶ГҐГ­ГІГ°Гі
   component.gpu.setBackground(ecs.windowColors.background)
   component.gpu.setForeground(ecs.colors.gray)
   ecs.centerText("x", yWindowEnd - 5 , lang.beginOsInstall)
  
-  --кнопа
+  --ГЄГ­Г®ГЇГ 
   drawButton("->",false)
  
   waitForClickOnButton("->")
  
 end
  
-------------------------------ЛИЦ СОГЛАЩЕНЬКА------------------------------------------
+------------------------------Р›РР¦ РЎРћР“Р›РђР©Р•РќР¬РљРђ------------------------------------------
  
 do
   clear()
  
-  --Откуда рисовать условия соглашения
+  --РћС‚РєСѓРґР° СЂРёСЃРѕРІР°С‚СЊ СѓСЃР»РѕРІРёСЏ СЃРѕРіР»Р°С€РµРЅРёСЏ
   local from = 1
   local xText, yText, TextWidth, TextHeight = xWindow + 4, yWindow + 2, windowWidth - 8, windowHeight - 7
  
-  --Читаем файл с лиц соглашением
+  --Р§РёС‚Р°РµРј С„Р°Р№Р» СЃ Р»РёС† СЃРѕРіР»Р°С€РµРЅРёРµРј
   local lines = {}
   local file = io.open("/MineOS/System/OS/License.txt", "r")
   for line in file:lines() do
@@ -253,9 +253,9 @@ do
   end
   file:close()
  
-  --Штуку рисуем
+  --РЁС‚СѓРєСѓ СЂРёСЃСѓРµРј
   ecs.textField(xText, yText, TextWidth, TextHeight, lines, from, 0xffffff, 0x262626, 0x888888, ecs.colors.blue)
-  --Кнопка
+  --РљРЅРѕРїРєР°
   drawButton(lang.acceptLicense, false)
  
   while true do
@@ -276,9 +276,9 @@ do
   end
 end
  
--------------------------- Подготавливаем файловую систему ----------------------------------
+-------------------------- РџРѕРґРіРѕС‚Р°РІР»РёРІР°РµРј С„Р°Р№Р»РѕРІСѓСЋ СЃРёСЃС‚РµРјСѓ ----------------------------------
  
---Создаем стартовые пути и прочие мелочи чисто для эстетики
+--РЎРѕР·РґР°РµРј СЃС‚Р°СЂС‚РѕРІС‹Рµ РїСѓС‚Рё Рё РїСЂРѕС‡РёРµ РјРµР»РѕС‡Рё С‡РёСЃС‚Рѕ РґР»СЏ СЌСЃС‚РµС‚РёРєРё
 local desktopPath = "/MineOS/Desktop/"
 local applicationsPath = "/MineOS/Applications/"
 local picturesPath = "/MineOS/Pictures/"
@@ -289,7 +289,7 @@ fs.makeDirectory(picturesPath)
 fs.makeDirectory(desktopPath)
 fs.makeDirectory("/MineOS/Trash/")
  
------------------------------- Загрузка всего ------------------------------------------
+------------------------------ Р—Р°РіСЂСѓР·РєР° РІСЃРµРіРѕ ------------------------------------------
  
 do
   local barWidth = math.floor(windowWidth * 2 / 3)
@@ -309,7 +309,7 @@ do
   ecs.progressBar(xBar, yBar, barWidth, 1, 0xcccccc, ecs.colors.blue, 0)
   os.sleep(timing)
  
-  -- Создаем список того, что будем загружать, в зависимости от выбранных ранее опций
+  -- РЎРѕР·РґР°РµРј СЃРїРёСЃРѕРє С‚РѕРіРѕ, С‡С‚Рѕ Р±СѓРґРµРј Р·Р°РіСЂСѓР¶Р°С‚СЊ, РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РІС‹Р±СЂР°РЅРЅС‹С… СЂР°РЅРµРµ РѕРїС†РёР№
   local thingsToDownload = {}
   for i = 1, #applications do
     if
@@ -332,11 +332,11 @@ do
     then
       table.insert(thingsToDownload, applications[i])
     end
-    --Подчищаем за собой, а то мусора нынче много
+    --РџРѕРґС‡РёС‰Р°РµРј Р·Р° СЃРѕР±РѕР№, Р° С‚Рѕ РјСѓСЃРѕСЂР° РЅС‹РЅС‡Рµ РјРЅРѕРіРѕ
     applications[i] = nil
   end
  
-  -- Загружаем все из списка
+  -- Р—Р°РіСЂСѓР¶Р°РµРј РІСЃРµ РёР· СЃРїРёСЃРєР°
   for app = 1, #thingsToDownload do
     drawInfo(xBar, yBar + 1, lang.downloading .. " " .. thingsToDownload[app]["name"])
     local percent = app / #thingsToDownload * 100
@@ -349,35 +349,35 @@ do
   if installOptions == "Install only libraries" then flashEFI(); ecs.prepareToExit(); computer.shutdown(true) end
 end
  
--- Создаем базовые обои рабочего стола
+-- РЎРѕР·РґР°РµРј Р±Р°Р·РѕРІС‹Рµ РѕР±РѕРё СЂР°Р±РѕС‡РµРіРѕ СЃС‚РѕР»Р°
 if downloadWallpapers then
   ecs.createShortCut(desktopPath .. "Pictures.lnk", picturesPath)
   ecs.createShortCut("/MineOS/System/OS/Wallpaper.lnk", picturesPath .. "Ciri.pic")
 end
  
--- Создаем файл автозагрузки
+-- РЎРѕР·РґР°РµРј С„Р°Р№Р» Р°РІС‚РѕР·Р°РіСЂСѓР·РєРё
 local file = io.open("autorun.lua", "w")
-file:write("local success, reason = pcall(loadfile(\"OS.lua\")); if not success then print(\"Ошибка: \" .. tostring(reason)) end")
+file:write("local success, reason = pcall(loadfile(\"OS.lua\")); if not success then print(\"ГЋГёГЁГЎГЄГ : \" .. tostring(reason)) end")
 file:close()
  
--- Биос
+-- Р‘РёРѕСЃ
 flashEFI()
  
------------------------------- Стадия перезагрузки ------------------------------------------
+------------------------------ РЎС‚Р°РґРёСЏ РїРµСЂРµР·Р°РіСЂСѓР·РєРё ------------------------------------------
  
 ecs.blankWindow(xWindow,yWindow,windowWidth,windowHeight)
  
 image.draw(math.floor(xSize/2 - 16), math.floor(ySize/2 - 11), imageOK)
  
---Текст по центру
+--РўРµРєСЃС‚ РїРѕ С†РµРЅС‚СЂСѓ
 component.gpu.setBackground(ecs.windowColors.background)
 component.gpu.setForeground(ecs.colors.gray)
 ecs.centerText("x",yWindowEnd - 5, lang.needToRestart)
  
---Кнопка
+--РљРЅРѕРїРєР°
 drawButton(lang.restart, false)
 waitForClickOnButton(lang.restart)
  
---Перезагружаем компьютер
+--РџРµСЂРµР·Р°РіСЂСѓР¶Р°РµРј РєРѕРјРїСЊСЋС‚РµСЂ
 ecs.prepareToExit()
 computer.shutdown(true)
