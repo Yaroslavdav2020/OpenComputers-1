@@ -7,7 +7,7 @@
 `local component = require("component")`
 `local rs = component.redstone`
 
-Это позвонил вызывать и использовать функции [редстоун карты](../item/redstoneCard1.md). Например:
+Это позволит вызывать и использовать функции [редстоун карты](../item/redstoneCard1.md). Например:
 
 `rs.setOutput(require("sides").front, 15)`
 
