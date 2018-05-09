@@ -1,0 +1,79 @@
+-- Автостарт, проверка версии и обновление при необходимости ПО банка
+-- Программа Кассир
+
+local com = require('component')
+local internet = com.internet
+local filesystem = require("filesystem")
+local shell = require('shell')
+
+local NAME_PROGRAMM = 'teller.lua'   -- имя программы Кассир
+--[[ local CODE_PROGRAMM = "LEbTWmhB"     -- код программы Кассир Pastebin
+local TEMP_FILE = 'temp_teller.lua'
+
+function get(url)
+  -- делаем запрос
+  local request, reason = internet.request(url)
+  -- если нет ответа - возвращаем nil
+  if not request then return '' end
+  -- если ответ есть - читаем данные
+  local text = ''
+  while true do
+    local data, reason = request.read()
+    if not data then 
+      request.close()
+      break
+    elseif #data > 0 then
+      text = text..data
+    end
+  end
+  return text
+end
+
+local function loadPastbin(CODE_PROGRAMM, TEMP_FILE)
+    local text = get("http://pastebin.com/raw.php?i="..CODE_PROGRAMM)
+    local file = io.open(TEMP_FILE, 'w')
+    file:write(text)
+    file:close()
+end
+
+local function getVersion(FILE)
+  local ver = ''
+  if filesystem.exists(FILE) then
+    --считываем версию
+    local file = io.open(FILE, 'r')
+    local str=file:read("*l")
+    ver = str:match("%((.+)%)")
+    file:close()
+      return ver
+    else  
+      return ver
+  end
+end
+
+
+-- Скачиваем файл с Pastbin
+loadPastbin(CODE_PROGRAMM, TEMP_FILE)
+
+-- Получаем актуальную версию
+local MASTER_VER = getVersion(TEMP_FILE)
+print(MASTER_VER, ' -- Получаю актуальную версию')
+-- Получаем текущую версию
+local CURRENT_VER = getVersion(NAME_PROGRAMM)
+print(CURRENT_VER,' -- Получаю текущую версию')
+
+if MASTER_VER ~= CURRENT_VER then
+  print('Обновление ПО...')
+    --удаляем устаревшую программу
+    filesystem.remove(NAME_PROGRAMM)
+    --переименовываем TEMP
+    filesystem.rename(TEMP_FILE, NAME_PROGRAMM)
+    --запускаем программу
+  print('Старт... ',NAME_PROGRAMM)
+  os.sleep(1)
+    shell.execute(NAME_PROGRAMM)
+  else
+    --запускаем программу]]--
+  print('Старт... ',NAME_PROGRAMM)
+  os.sleep(1)
+    shell.execute(NAME_PROGRAMM)
+end

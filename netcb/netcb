@@ -1,0 +1,45 @@
+local event = require('event')
+local com = require('component')
+local modem = com.modem
+local cb = com.command_block
+
+-- константы
+local PORT = 27
+
+-- функции
+local function runComand(command_string)  
+  cb.setCommand(command_string)
+  cb.executeCommand()
+end
+
+function logEvent()
+  -- TODO
+end
+function viewMon(...)
+  local args = {...}
+  for a,b in pairs(args) do
+    print(b)
+  end
+end
+
+local function commandRecive()
+  while true do
+    name, add, sender, _, _, message, command = event.pull()
+    -- обрабатываем полученные сообщения
+    if name == 'modem_message' then
+      -- чтобы посторонние мессаги не выполнялись
+      if message == 'netcb' then
+        runComand(command)
+        logEvent() -- дозапись в лог-файл
+        viewMon(sender:sub(1,8)..': '..command) --принтинг на экран
+      end
+    end
+  end
+end
+
+-- инициализация
+print("Виртуальный КБ включен.")
+modem.open(PORT)
+commandRecive()
+modem.close(PORT)
+print("Виртуальный КБ выключен.")
