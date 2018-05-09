@@ -32,10 +32,10 @@ local CHARGERSIDE = sides.bottom  -- с какой стороны зарядни
 local CHARGERPOWER = 1            -- c какой силой сигналить =)
 local REALTIME = true             -- использовать ли в логах реальное время
 local TIMEZONE = 1                -- часовой пояс по Гринвичу
-local VIRTUALCB =  'сюда_впишите_адрес_модема_командного_блока'
-local SUPERVISOR = 'сюда_впишите_адрес_модема_супервайзера'
-local KEY  = 'ключ_из_php_файла'
-local KEY2 = 'ключ_из_php_файла'
+local VIRTUALCB =  '756efbc1-13e8-4f70-a68d-96d8f71dbd10'
+local SUPERVISOR = 'c903b694-e1d2-43ef-a016-fd996e55c4cc'
+local KEY  = 'jdgajg6R5F'
+local KEY2 = 'jdgajg6R5F'
 
 -- переменные (и программно-определяемые константы)
 local ID = 1                            -- ID терминала
@@ -704,17 +704,17 @@ end
 
 -- =============================== M O N E Y =============================== --
 function getMoney(nickname)
-  return tonumber(get('http://адрес_сайта/имя_php_скрипта.php?type=balance&auth='..KEY..'&nick='..nickname..'&action=get'))
+  return tonumber(get('http://wordpress1/websql.php?type=balance&auth='..KEY..'&nick='..nickname..'&action=get'))
 end
 function addMoney(nickname, amount)
-  return get('http://адрес_сайта/имя_php_скрипта.php?type=balance&auth='..KEY..'&nick='..nickname..'&action=add&value='..amount)
+  return get('http://wordpress1/websql.php?type=balance&auth='..KEY..'&nick='..nickname..'&action=add&value='..amount)
 end
 
 function getUU(nickname)
-  return tonumber(get('http://адрес_сайта/имя_php_скрипта.php?type=voice&auth='..KEY..'&nick='..nickname..'&action=get'))
+  return tonumber(get('http://wordpress1/websql.php?type=voice&auth='..KEY..'&nick='..nickname..'&action=get'))
 end
 function addUU(nickname, amount)
-  return get('http://адрес_сайта/имя_php_скрипта.php?type=voice&auth='..KEY..'&nick='..nickname..'&action=add&value='..amount)
+  return get('http://wordpress1/websql.php?type=voice&auth='..KEY..'&nick='..nickname..'&action=add&value='..amount)
 end
 
 -- перечисляем деньги со счета на счет
@@ -762,10 +762,10 @@ end
 
 -- ============================ S E S S I O N S ============================ --
 function getSessionStamp(nickname)
-  return get('http://адрес_сайта/имя_php_скрипта.php?action=get&nick='..nickname..'&type=banksession&auth='..KEY2)
+  return get('http://wordpress1/websql.php?action=get&nick='..nickname..'&type=banksession&auth='..KEY2)
 end
 function setSessionStamp(nickname, stamp)
-  return get('http://адрес_сайта/имя_php_скрипта.php?action=set&nick='..nickname..'&type=banksession&value='..stamp..'&auth='..KEY2)
+  return get('http://wordpress1/websql.php?action=set&nick='..nickname..'&type=banksession&value='..stamp..'&auth='..KEY2)
 end
 
 function antiMultisessionCheck(sequence)
@@ -782,16 +782,16 @@ end
 
 -- геттим время последнего визита
 function getLastVisitTime(nickname)
-  return get('http://адрес_сайта/имя_php_скрипта.php?action=get&nick='..nickname..'&type=paytime&auth='..KEY)
+  return get('http://wordpress1/websql.php?action=get&nick='..nickname..'&type=paytime&auth='..KEY)
 end
 
 
 -- гетим/сетим хеши паролей в БД
 function getPassHash(nickname)
-  return get('http://адрес_сайта/имя_php_скрипта.php?action=get&nick='..nickname..'&type=passhash&auth='..KEY2)
+  return get('http://wordpress1/websql.php?action=get&nick='..nickname..'&type=passhash&auth='..KEY2)
 end
 function setPassHash(nickname, hash)
-  return get('http://адрес_сайта/имя_php_скрипта.php?action=set&nick='..nickname..'&type=passhash&value='..hash..'&auth='..KEY2)
+  return get('http://wordpress1/websql.php?action=set&nick='..nickname..'&type=passhash&value='..hash..'&auth='..KEY2)
 end
 
 -- генерилка паролей
